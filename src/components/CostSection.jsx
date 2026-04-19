@@ -59,7 +59,7 @@ export default function CostSection() {
         style={{
           fontFamily: "'Inter', sans-serif",
           fontSize: '1rem',
-          color: 'rgba(232,228,220,0.65)',
+          color: 'rgba(232,228,220,0.75)',
           maxWidth: '580px',
           lineHeight: 1.7,
           marginBottom: '3rem',
@@ -97,7 +97,7 @@ export default function CostSection() {
               style={{
                 fontFamily: "'Inter', sans-serif",
                 fontSize:   '0.88rem',
-                color:      'rgba(232,228,220,0.55)',
+                color:      'rgba(232,228,220,0.70)',
                 lineHeight: 1.55,
               }}
             >

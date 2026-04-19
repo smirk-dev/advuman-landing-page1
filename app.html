@@ -124,20 +124,7 @@
     }
 
     /* ── HERO ───────────────────────────────────────────────────────────── */
-    #hero {
-      position: relative; min-height: 100vh;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      text-align: center;
-      overflow: hidden;
-      padding: 7rem 1.5rem 4rem;
-    }
-    #canvas {
-      position: fixed; inset: 0;
-      width: 100%; height: 100%;
-      pointer-events: none; z-index: 1;
-      transition: opacity 0.3s ease;
-    }
+    /* #hero and #canvas rules removed — new scroll-pinned hero uses .scroll-pin */
     .hero-content {
       position: relative; z-index: 10;
       max-width: 780px; margin: 0 auto;
@@ -800,6 +787,202 @@
       .section-title { font-size: 2rem; }
       .final-cta { padding: 6rem 1.25rem; }
     }
+
+    /* ═══ SCROLL-PINNED PNG SEQUENCE SECTIONS ═══════════════════════════════ */
+    /* Wrapper is 3× viewport tall; inner sticks to top while we scroll through */
+    .scroll-pin {
+      position: relative;
+      height: 300vh;
+      background: #070d0a;
+      padding: 0;
+      max-width: none;
+      margin: 0;
+    }
+    .scroll-pin-inner {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      width: 100%;
+      overflow: hidden;
+    }
+    .scroll-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+      z-index: 1;
+    }
+    /* Top/bottom legibility gradient */
+    .scroll-scrim-tb {
+      position: absolute; inset: 0; z-index: 2; pointer-events: none;
+      background: linear-gradient(to bottom,
+        rgba(7,13,10,0.55) 0%,
+        rgba(7,13,10,0.10) 30%,
+        rgba(7,13,10,0.10) 70%,
+        rgba(7,13,10,0.70) 100%);
+    }
+    /* Left-panel scrim — darkens left 45% for text legibility */
+    .scroll-scrim-left {
+      position: absolute; inset: 0; z-index: 3; pointer-events: none;
+      background: linear-gradient(to right,
+        rgba(7,13,10,0.72) 0%,
+        rgba(7,13,10,0.35) 45%,
+        transparent 75%);
+    }
+
+    /* ═══ HERO OVERLAY — bottom-left, progressive reveal ════════════════════ */
+    #hero .hero-content {
+      position: absolute;
+      z-index: 10;
+      left: clamp(1.5rem, 8vw, 6rem);
+      bottom: clamp(5rem, 10vh, 7rem);
+      right: clamp(1.5rem, 8vw, 6rem);
+      max-width: 640px;
+      text-align: left;
+      margin: 0;
+    }
+    #hero .hero-eyebrow {
+      color: rgba(255,215,0,0.85);
+      margin-bottom: 1.2rem;
+      text-shadow: 0 1px 6px rgba(0,0,0,0.7);
+    }
+    #hero .hero-title {
+      text-align: left;
+      margin-bottom: 1.4rem;
+      text-shadow: 0 2px 16px rgba(0,0,0,0.85), 0 1px 4px rgba(0,0,0,0.7);
+    }
+    #hero .hero-sub {
+      text-align: left;
+      margin: 0 0 2rem 0;
+      max-width: 520px;
+      color: rgba(232,228,220,0.78);
+      text-shadow: 0 1px 8px rgba(0,0,0,0.7);
+    }
+    #hero .hero-actions {
+      justify-content: flex-start;
+      margin-bottom: 2rem;
+    }
+    #hero .signal-display {
+      justify-content: flex-start;
+    }
+    #hero .signal-tag {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 0.58rem;
+      letter-spacing: 0.14em;
+      color: rgba(255,255,255,0.25);
+      margin-left: 0.4rem;
+    }
+
+    /* ═══ SIGNALS (How It Works) OVERLAY ═══════════════════════════════════ */
+    .signals-header {
+      position: absolute;
+      z-index: 10;
+      top: clamp(5rem, 10vh, 7rem);
+      left: clamp(1.5rem, 8vw, 6rem);
+      right: clamp(1.5rem, 8vw, 6rem);
+      max-width: 540px;
+    }
+    .signals-header .section-title {
+      text-shadow: 0 2px 16px rgba(0,0,0,0.85), 0 1px 4px rgba(0,0,0,0.7);
+    }
+    .signals-header .section-title em {
+      font-style: italic;
+      color: #ffd700;
+      font-weight: 300;
+    }
+    .signals-header .section-sub {
+      color: rgba(232,228,220,0.78);
+      text-shadow: 0 1px 8px rgba(0,0,0,0.7);
+      max-width: 480px;
+    }
+    .signals-step {
+      position: absolute;
+      z-index: 10;
+      bottom: clamp(4rem, 8vh, 6rem);
+      left: clamp(1.5rem, 8vw, 6rem);
+      max-width: 480px;
+    }
+    /* Step 02 — top-right */
+    .signals-step--tr {
+      bottom: auto;
+      left: auto;
+      top: clamp(5rem, 10vh, 7rem);
+      right: clamp(1.5rem, 8vw, 6rem);
+      text-align: right;
+    }
+    /* Step 03 — bottom-right */
+    .signals-step--br {
+      left: auto;
+      right: clamp(1.5rem, 8vw, 6rem);
+      text-align: right;
+    }
+    .signals-step .step-num {
+      position: static;
+      display: block;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 0.82rem;
+      letter-spacing: 0.18em;
+      color: rgba(255,215,0,0.9);
+      margin-bottom: 0.75rem;
+      text-shadow: 0 1px 10px rgba(0,0,0,0.9);
+    }
+    .signals-step .step-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.75rem;
+      font-weight: 400;
+      color: #ffffff;
+      margin-bottom: 0.75rem;
+      line-height: 1.2;
+      text-shadow: 0 2px 18px rgba(0,0,0,0.95), 0 1px 6px rgba(0,0,0,0.8);
+    }
+    .signals-step .step-body {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.92rem;
+      color: rgba(232,228,220,0.88);
+      line-height: 1.65;
+      margin-bottom: 1.1rem;
+      text-shadow: 0 1px 10px rgba(0,0,0,0.9);
+    }
+    .signals-step .step-tag {
+      display: inline-block;
+      margin-top: 0;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      text-transform: none;
+      color: rgba(255,215,0,0.85);
+      text-shadow: 0 1px 8px rgba(0,0,0,0.9);
+    }
+
+    /* Scroll-driven reveal elements start invisible, JS sets opacity each frame */
+    [data-reveal] {
+      opacity: 0;
+      will-change: opacity, transform;
+    }
+
+    /* Mobile adjustments for pinned sections */
+    @media (max-width: 600px) {
+      .scroll-pin { height: 260vh; }
+      #hero .hero-content {
+        left: 1.25rem; right: 1.25rem; bottom: 3.5rem;
+        max-width: none;
+      }
+      #hero .hero-title { font-size: 2.4rem; }
+      .signals-header {
+        top: 5.5rem; left: 1.25rem; right: 1.25rem;
+      }
+      .signals-step,
+      .signals-step--tr,
+      .signals-step--br {
+        left: 1.25rem; right: 1.25rem;
+        bottom: 3rem; top: auto;
+        max-width: none;
+        text-align: left;
+      }
+      .signals-step--tr { top: auto; bottom: 3rem; }
+      .signals-step .step-title { font-size: 1.35rem; }
+    }
   </style>
 </head>
 <body>
@@ -817,33 +1000,33 @@
   <button class="nav-cta" onclick="openCalendly()">Book a Call</button>
 </nav>
 
-<!-- ══ HERO ═════════════════════════════════════════════════════════════════ -->
-<section id="hero">
+<!-- ══ HERO (scroll-pinned PNG sequence: logo → world map) ══════════════════ -->
+<section id="hero" class="scroll-pin" data-seq="1" data-frames="160">
+  <div class="scroll-pin-inner">
+    <canvas class="scroll-canvas" aria-hidden="true"></canvas>
+    <div class="scroll-scrim-tb"></div>
+    <div class="scroll-scrim-left"></div>
 
-  <!-- Cinematic corridor health globe canvas -->
-  <canvas id="canvas" aria-hidden="true"></canvas>
-
-  <div class="hero-content">
-    <p class="hero-eyebrow">Used by UK importers managing India corridor exposure</p>
-    <h1 class="hero-title">
-      Know before it hits<br>
-      <em>your bottom line.</em>
-    </h1>
-    <p class="hero-sub">
-      Weekly trade risk intelligence for UK companies on the UK–India corridor. Human-reviewed. No jargon. Free to start.
-    </p>
-    <div class="hero-actions">
-      <a href="#final-cta" class="btn-primary">Get the Weekly Pulse</a>
-      <a href="#how-it-works" class="btn-ghost">See How It Works</a>
+    <div class="hero-content">
+      <p class="hero-eyebrow" data-reveal="0.02,0.12" data-hide="0.85,0.92">Used by UK importers managing India corridor exposure</p>
+      <h1 class="hero-title" data-reveal="0.22,0.32" data-hide="0.85,0.92">
+        Know before it hits<br>
+        <em>your bottom line.</em>
+      </h1>
+      <p class="hero-sub" data-reveal="0.45,0.55" data-hide="0.85,0.92">
+        Weekly trade risk intelligence for UK companies on the UK–India corridor. Human-reviewed. No jargon. Free to start.
+      </p>
+      <div class="hero-actions" data-reveal="0.60,0.68" data-hide="0.85,0.92">
+        <a href="#final-cta" class="btn-primary">Get the Weekly Pulse</a>
+        <a href="#how-it-works" class="btn-ghost">See How It Works</a>
+      </div>
+      <div class="signal-display" data-reveal="0.72,0.80" data-hide="0.88,0.94">
+        <span class="signal-dot" id="hero-signal-dot"></span>
+        <span id="hero-signal-text">UK–India: ACTIVE</span>
+        <span class="signal-tag">· LAUNCH CORRIDOR</span>
+      </div>
     </div>
-    <div class="signal-display">
-      <span class="signal-dot" id="hero-signal-dot"></span>
-      <span id="hero-signal-text">UK–India: ACTIVE</span>
-    </div>
-    <p style="margin-top:1.2rem;font-size:0.62rem;letter-spacing:0.14em;text-transform:uppercase;color:rgba(232,228,220,0.28);">Launch corridor: UK–India</p>
   </div>
-
-
 </section>
 
 <!-- ══ CORRIDOR STATUS STRIP ═════════════════════════════════════════════════ -->
@@ -880,26 +1063,37 @@
 
 <div class="ornament-rule"><div class="ornament-rule-line"></div><span class="ornament-rule-center">✦</span><div class="ornament-rule-line"></div></div>
 
-<!-- ══ HOW IT WORKS ══════════════════════════════════════════════════════════ -->
-<section class="how-it-works section-inner" id="how-it-works">
-  <p class="section-label reveal reveal-left">How Advuman works</p>
-  <h2 class="section-title reveal">Three pressure layers.<br>One clear corridor state.</h2>
-  <p class="section-sub reveal">We turn scattered trade signals into one weekly read on where risk is building across the UK–India corridor.</p>
+<!-- ══ HOW IT WORKS (scroll-pinned PNG sequence: service illustrations) ═════ -->
+<section class="scroll-pin" id="how-it-works" data-seq="2" data-frames="160">
+  <div class="scroll-pin-inner">
+    <canvas class="scroll-canvas" aria-hidden="true"></canvas>
+    <div class="scroll-scrim-tb"></div>
+    <div class="scroll-scrim-left"></div>
 
-  <div class="steps-grid">
-    <div class="step reveal" style="transition-delay:0.05s">
+    <!-- Header: top-left, fades in first, then out before step 2 -->
+    <div class="signals-header" data-reveal="0.03,0.10" data-hide="0.28,0.33">
+      <p class="section-label">How Advuman works</p>
+      <h2 class="section-title">Three pressure layers.<br><em>One clear corridor state.</em></h2>
+      <p class="section-sub">We turn scattered trade signals into one weekly read on where risk is building across the UK–India corridor.</p>
+    </div>
+
+    <!-- Steps: bottom-left, one at a time -->
+    <!-- Step 01 — bottom-left -->
+    <div class="signals-step" data-reveal="0.15,0.22" data-hide="0.28,0.33">
       <span class="step-num">01</span>
       <div class="step-title">Monitor the corridor</div>
       <div class="step-body">We track regulatory notices, port updates, carrier changes, and cost signals across the UK–India trade lane.</div>
       <span class="step-tag">Regulatory · Shipping · Cost</span>
     </div>
-    <div class="step reveal" style="transition-delay:0.12s">
+    <!-- Step 02 — top-right -->
+    <div class="signals-step signals-step--tr" data-reveal="0.33,0.40" data-hide="0.50,0.55">
       <span class="step-num">02</span>
       <div class="step-title">Read what matters</div>
       <div class="step-body">Signals are grouped into the three types of pressure that actually affect operators: compliance, shipping, and landed cost.</div>
       <span class="step-tag">What changed · Where pressure sits</span>
     </div>
-    <div class="step reveal" style="transition-delay:0.20s">
+    <!-- Step 03 — bottom-right -->
+    <div class="signals-step signals-step--br" data-reveal="0.55,0.62" data-hide="0.82,0.88">
       <span class="step-num">03</span>
       <div class="step-title">Get the weekly pulse</div>
       <div class="step-body">Start with the free weekly corridor pulse. Upgrade for the full report, ranked threats, and broader checks delivered every Monday in plain English.</div>
@@ -1402,509 +1596,103 @@ async function submitWaitlist(e) {
   }
 }
 
-// ── CINEMATIC CANVAS ANIMATION ─────────────────────────────────────────────
-// Sphere + rings + debris + lerpSignal — repurposed for corridor health states
+// ── SCROLL-PINNED PNG SEQUENCE DRIVER ──────────────────────────────────────
+// One tiny driver for all <section class="scroll-pin" data-seq data-frames> sections.
+// Preloads frames, draws the one matching scroll progress, and ramps [data-reveal]
+// children in/out as progress crosses their configured windows.
 (function() {
-  const canvas = document.getElementById('canvas');
-  if (!canvas) return;
-  const ctx = canvas.getContext('2d', { alpha: true });
+  const sections = Array.from(document.querySelectorAll('section.scroll-pin'));
+  if (!sections.length) return;
+
   const DPR = Math.min(window.devicePixelRatio || 1, 2);
-  const TAU = Math.PI * 2;
+  const reveals = [];
 
-  // Lerped color state — starts at ACTIVE (red)
-  let sigR = 255, sigG = 59, sigB = 59, sigSpeedMult = 1.8;
-  let targetR = 255, targetG = 59, targetB = 59, targetSpeedMult = 1.8;
+  sections.forEach(section => {
+    const seq    = section.dataset.seq;
+    const total  = parseInt(section.dataset.frames, 10);
+    const canvas = section.querySelector('canvas.scroll-canvas');
+    const ctx    = canvas.getContext('2d', { alpha: false });
 
-  let W, H;
-  function resize() {
-    W = window.innerWidth;
-    H = window.innerHeight;
-    canvas.width  = W * DPR;
-    canvas.height = H * DPR;
-    ctx.setTransform(1,0,0,1,0,0);
-    ctx.scale(DPR, DPR);
-  }
-  resize();
-  window.addEventListener('resize', () => { ctx.setTransform(1,0,0,1,0,0); resize(); reseedBg(); }, { passive:true });
-
-  // ── BACKGROUND STARS & NEBULAE ────────────────────────────────────────
-  let BG = [];
-  function reseedBg() {
-    BG = [];
-    // Dense star field
-    for (let i=0;i<300;i++) BG.push({
-      type: 'star',
-      x: Math.random()*W, y: Math.random()*H,
-      r: Math.random()<0.7 ? 0.15+Math.random()*0.5 : 0.7+Math.random()*1.2,
-      baseA: Math.random()<0.7 ? 0.04+Math.random()*0.3 : 0.18+Math.random()*0.50,
-      tw: Math.random()*TAU, tws: 0.002+Math.random()*0.009,
-      col: Math.random()>0.9 ? `${Math.round(sigR)},${Math.round(sigG)},${Math.round(sigB)}` : '220,215,200',
-      vx: (Math.random()-0.5)*0.015, vy: (Math.random()-0.5)*0.008,
-    });
-    // Nebula clouds
-    for (let i=0;i<10;i++) BG.push({
-      type: 'nebula',
-      x: Math.random()*W, y: Math.random()*H,
-      r: 100+Math.random()*200,
-      a: 0.008+Math.random()*0.018,
-      col: [`${Math.round(sigR)},${Math.round(sigG)},${Math.round(sigB)}`,'30,50,80','20,60,50','15,30,60'][Math.floor(Math.random()*4)],
-    });
-    // Deep space washes
-    [
-      { col:`${Math.round(sigR)},${Math.round(sigG)},${Math.round(sigB)}`, x:0.22, y:0.28 },
-      { col:'15,30,60', x:0.78, y:0.65 },
-      { col:'8,40,30',  x:0.15, y:0.72 }
-    ].forEach(n => {
-      BG.push({ type:'nebula', x:n.x*W, y:n.y*H, r:W*0.42, a:0.005, col:n.col });
-    });
-    // Stardust
-    for (let i=0;i<100;i++) BG.push({
-      type: 'dust',
-      x: Math.random()*W, y: Math.random()*H,
-      r: 0.10+Math.random()*0.32,
-      baseA: 0.03+Math.random()*0.18,
-      tw: Math.random()*TAU, tws: 0.001+Math.random()*0.005,
-      vx: (Math.random()-0.5)*0.006, vy: (Math.random()-0.5)*0.003,
-      col: '190,185,170',
-    });
-  }
-  reseedBg();
-
-  function drawBackground(t) {
-    BG.forEach(b => {
-      if (b.type === 'nebula') {
-        const g = ctx.createRadialGradient(b.x,b.y,0,b.x,b.y,b.r);
-        g.addColorStop(0, `rgba(${b.col},${b.a})`);
-        g.addColorStop(1, `rgba(${b.col},0)`);
-        ctx.beginPath(); ctx.arc(b.x,b.y,b.r,0,TAU);
-        ctx.fillStyle = g; ctx.fill();
-      } else {
-        b.tw += b.tws;
-        b.x += b.vx; b.y += b.vy;
-        if (b.x < 0) b.x = W; if (b.x > W) b.x = 0;
-        if (b.y < 0) b.y = H; if (b.y > H) b.y = 0;
-        const tw = b.type==='dust' ? 0.28 : 0.62;
-        const a = b.baseA * (1-tw + tw*Math.sin(b.tw));
-        if (b.r > 1.0 && a > 0.28) {
-          ctx.save(); ctx.globalAlpha = a*0.12;
-          ctx.strokeStyle = `rgba(${b.col},1)`; ctx.lineWidth = 0.5;
-          ctx.beginPath();
-          ctx.moveTo(b.x-b.r*3,b.y); ctx.lineTo(b.x+b.r*3,b.y);
-          ctx.moveTo(b.x,b.y-b.r*3); ctx.lineTo(b.x,b.y+b.r*3);
-          ctx.stroke(); ctx.restore();
-        }
-        ctx.beginPath(); ctx.arc(b.x,b.y,b.r,0,TAU);
-        ctx.fillStyle = `rgba(${b.col},${a.toFixed(3)})`; ctx.fill();
-      }
-    });
-  }
-
-  // ── SPHERE ─────────────────────────────────────────────────────────────
-  // Planet surface — pre-baked into offscreen canvas
-  const planetCanvas = document.createElement('canvas');
-  const planetSize = 512;
-  planetCanvas.width  = planetSize * 2;
-  planetCanvas.height = planetSize;
-  const pCtx = planetCanvas.getContext('2d');
-
-  (function bakePlanetSurface() {
-    const w = planetSize*2, h = planetSize;
-    pCtx.fillStyle = 'rgba(10,16,12,1)';
-    pCtx.fillRect(0,0,w,h);
-    // Subtle bands
-    const bands = [
-      {y:0.15,width:0.07,a:0.05,col:'80,200,120'},
-      {y:0.30,width:0.05,a:0.04,col:'60,150,100'},
-      {y:0.48,width:0.10,a:0.07,col:'40,120,80'},
-      {y:0.62,width:0.06,a:0.04,col:'30,90,60'},
-      {y:0.78,width:0.08,a:0.05,col:'50,130,90'},
-    ];
-    bands.forEach(b => {
-      const gy = pCtx.createLinearGradient(0,b.y*h-b.width*h*0.5,0,b.y*h+b.width*h*0.5);
-      gy.addColorStop(0,`rgba(${b.col},0)`);
-      gy.addColorStop(0.5,`rgba(${b.col},${b.a})`);
-      gy.addColorStop(1,`rgba(${b.col},0)`);
-      pCtx.fillStyle = gy;
-      pCtx.fillRect(0,(b.y-b.width*0.5)*h,w,b.width*h);
-    });
-    // Cloud-like patches
-    for (let i=0;i<50;i++) {
-      const x = Math.random()*w, y = Math.random()*h;
-      const r = 6+Math.random()*35, a = 0.015+Math.random()*0.04;
-      const col = Math.random()>0.5 ? '80,180,120' : '5,15,10';
-      const g = pCtx.createRadialGradient(x,y,0,x,y,r);
-      g.addColorStop(0,`rgba(${col},${a})`);
-      g.addColorStop(1,`rgba(${col},0)`);
-      pCtx.fillStyle = g;
-      pCtx.beginPath(); pCtx.arc(x,y,r,0,TAU); pCtx.fill();
-      // Mirror for seamless scroll
-      pCtx.beginPath(); pCtx.arc(x+planetSize,y,r,0,TAU); pCtx.fill();
+    // Preload frames (real PNGs from public/sequenceN/)
+    const frames = new Array(total);
+    let loaded = 0;
+    for (let i = 0; i < total; i++) {
+      const img = new Image();
+      const n = String(i + 1).padStart(3, '0');
+      img.src = `public/sequence${seq}/ezgif-frame-${n}.png`;
+      img.onload = () => {
+        frames[i] = img;
+        loaded++;
+        if (loaded === total) update();
+      };
+      img.onerror = () => { loaded++; };
     }
-  })();
 
-  let sphereRotation = 0;
-
-  function drawSphere(cx, cy, R, sysA=1) {
-    ctx.save(); ctx.globalAlpha = sysA;
-    const OR = sigR, OG = sigG, OB = sigB;
-
-    // Ground shadow
-    ctx.save(); ctx.scale(1, 0.10);
-    const sy = (cy + R*1.12) / 0.10;
-    const gs = ctx.createRadialGradient(cx,sy,0,cx,sy,R*0.88);
-    gs.addColorStop(0,'rgba(0,0,0,0.45)'); gs.addColorStop(1,'rgba(0,0,0,0)');
-    ctx.beginPath(); ctx.arc(cx,sy,R*0.88,0,TAU); ctx.fillStyle=gs; ctx.fill();
-    ctx.restore();
-
-    // Wide corona
-    const gc = ctx.createRadialGradient(cx,cy,R*0.80,cx,cy,R*1.25);
-    gc.addColorStop(0,  `rgba(${OR},${OG},${OB},0.12)`);
-    gc.addColorStop(0.4,`rgba(${OR},${OG},${OB},0.02)`);
-    gc.addColorStop(1,  `rgba(${OR},${OG},${OB},0)`);
-    ctx.beginPath(); ctx.arc(cx,cy,R*1.25,0,TAU); ctx.fillStyle=gc; ctx.fill();
-
-    // Sphere body
-    ctx.beginPath(); ctx.arc(cx,cy,R,0,TAU);
-    ctx.fillStyle='rgba(5,12,8,1)'; ctx.fill();
-
-    // Planet surface texture
-    ctx.save();
-    ctx.beginPath(); ctx.arc(cx,cy,R,0,TAU); ctx.clip();
-    const scrollOffset = ((sphereRotation % TAU) / TAU) * planetSize;
-    ctx.globalAlpha = 0.55;
-    ctx.drawImage(planetCanvas, scrollOffset, 0, planetSize, planetSize, cx-R, cy-R, R*2, R*2);
-    ctx.restore();
-
-    // Diffuse light — signal-reactive
-    const rotX = Math.cos(sphereRotation)*R*0.28;
-    const rotY = R*0.24;
-    const gDiff = ctx.createRadialGradient(cx-rotX,cy-rotY,0,cx,cy,R*1.05);
-    gDiff.addColorStop(0,   `rgba(${OR},${Math.round(OG*0.5)},${Math.round(OB*0.3)},0.55)`);
-    gDiff.addColorStop(0.30,`rgba(${OR},${Math.round(OG*0.3)},${Math.round(OB*0.2)},0.18)`);
-    gDiff.addColorStop(0.65,'rgba(0,0,0,0.04)');
-    gDiff.addColorStop(1,   'rgba(0,0,0,0.48)');
-    ctx.beginPath(); ctx.arc(cx,cy,R,0,TAU); ctx.fillStyle=gDiff; ctx.fill();
-
-    // Terminator
-    const gTerm = ctx.createRadialGradient(cx+rotX*0.55,cy+rotY*0.55,R*0.38,cx+rotX*0.55,cy+rotY*0.55,R*1.08);
-    gTerm.addColorStop(0,  'rgba(0,0,0,0)');
-    gTerm.addColorStop(0.60,'rgba(0,0,0,0.12)');
-    gTerm.addColorStop(1,  'rgba(0,0,0,0.58)');
-    ctx.beginPath(); ctx.arc(cx,cy,R,0,TAU); ctx.fillStyle=gTerm; ctx.fill();
-
-    // Rim glow
-    const gr = ctx.createRadialGradient(cx,cy,R*0.82,cx,cy,R);
-    gr.addColorStop(0,  `rgba(${OR},${OG},${OB},0)`);
-    gr.addColorStop(0.65,`rgba(${OR},${OG},${OB},0.05)`);
-    gr.addColorStop(1,  `rgba(${OR},${OG},${OB},0.14)`);
-    ctx.beginPath(); ctx.arc(cx,cy,R,0,TAU); ctx.fillStyle=gr; ctx.fill();
-
-    // Atmospheric scattering
-    const gAtm = ctx.createRadialGradient(cx,cy,R*0.86,cx,cy,R*1.02);
-    gAtm.addColorStop(0,   'rgba(60,100,140,0)');
-    gAtm.addColorStop(0.45,'rgba(60,100,140,0.04)');
-    gAtm.addColorStop(0.78,'rgba(80,120,170,0.06)');
-    gAtm.addColorStop(1,   'rgba(100,140,190,0.02)');
-    ctx.beginPath(); ctx.arc(cx,cy,R*1.02,0,TAU); ctx.fillStyle=gAtm; ctx.fill();
-
-    ctx.restore();
-  }
-
-  // ── RINGS ────────────────────────────────────────────────────────────────
-  const RINGS = [
-    { rx:1.26, tilt:0.42, dash:null,   w:1.2,  opN:0.55, opF:0.02, blur:true  },
-    { rx:0.96, tilt:0.40, dash:[9,20], w:1.2,  opN:0.55, opF:0.02, blur:true  },
-  ];
-
-  const RING_SEEDS = [
-    [0.82,0.55,0.90,0.65,0.78,0.42,0.95,0.60],
-    [0.70,0.88,0.45,0.92,0.58,0.80,0.38,0.74],
-  ];
-
-  function makeRingGrad(r, cx, cy, scale) {
-    const rx=r.rx*scale, ry=rx*r.tilt;
-    const g=ctx.createLinearGradient(cx,cy-ry,cx,cy+ry);
-    const op = r.opN * (0.4 + 0.6 * (sigSpeedMult / 1.8)); // dim when slow
-    g.addColorStop(0,   `rgba(${Math.round(sigR)},${Math.round(sigG)},${Math.round(sigB)},${r.opF})`);
-    g.addColorStop(0.18,`rgba(${Math.round(sigR)},${Math.round(sigG)},${Math.round(sigB)},${(r.opF*4).toFixed(4)})`);
-    g.addColorStop(0.50,`rgba(${Math.round(sigR)},${Math.round(sigG)},${Math.round(sigB)},${(op*0.55).toFixed(4)})`);
-    g.addColorStop(1,   `rgba(${Math.round(sigR)},${Math.round(sigG)},${Math.round(sigB)},${op})`);
-    return { g, rx, ry };
-  }
-
-  function drawRingArcVaried(rx, ry, startA, endA, ringIdx, lineW, opF, opN) {
-    const seeds = RING_SEEDS[ringIdx] || RING_SEEDS[0];
-    const segments = 48; const step = (endA-startA)/segments;
-    ctx.setLineDash([]);
-    for (let i=0;i<segments;i++) {
-      const a0=startA+i*step, a1=a0+step*1.02;
-      const pos=i/segments, seed=seeds[i%seeds.length];
-      const bright=0.55+0.28*Math.sin(pos*Math.PI*3.5+seed*6.28)+0.17*Math.sin(pos*Math.PI*7.2+seed*3.14);
-      const depth=(Math.sin((a0+a1)*0.5)+1)*0.5;
-      const baseOp=opF+(opN-opF)*depth;
-      const op=Math.max(0,Math.min(1,baseOp*bright));
-      ctx.beginPath(); ctx.ellipse(0,0,rx,ry,0,a0,a1,false);
-      ctx.strokeStyle=`rgba(${Math.round(sigR)},${Math.round(sigG)},${Math.round(sigB)},${op.toFixed(3)})`;
-      ctx.lineWidth=lineW; ctx.stroke();
+    function resize() {
+      const r = canvas.getBoundingClientRect();
+      canvas.width  = Math.max(1, r.width  * DPR);
+      canvas.height = Math.max(1, r.height * DPR);
+      ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
     }
-  }
-
-  const _isMobile = 'ontouchstart' in window;
-
-  function drawFarArcs(cx, cy, scale, sysA=1) {
-    RINGS.forEach(r => {
-      const {g,rx,ry}=makeRingGrad(r,cx,cy,scale);
-      ctx.save(); ctx.translate(cx,cy);
-      if (r.blur && !_isMobile) {
-        ctx.save(); ctx.globalAlpha=0.04*sysA; ctx.filter='blur(6px)';
-        ctx.beginPath(); ctx.ellipse(0,0,rx,ry,0,Math.PI,TAU,false);
-        ctx.setLineDash([]); ctx.strokeStyle=`rgba(${Math.round(sigR)},${Math.round(sigG)},${Math.round(sigB)},${r.opN*0.22})`;
-        ctx.lineWidth=r.w*10; ctx.stroke(); ctx.filter='none'; ctx.restore();
-        ctx.save(); ctx.globalAlpha=0.09*sysA; ctx.filter='blur(2px)';
-        ctx.beginPath(); ctx.ellipse(0,0,rx,ry,0,Math.PI,TAU,false);
-        ctx.setLineDash([]); ctx.strokeStyle=`rgba(${Math.round(sigR)},${Math.round(sigG)},${Math.round(sigB)},${r.opN*0.32})`;
-        ctx.lineWidth=r.w*4; ctx.stroke(); ctx.filter='none'; ctx.restore();
-      }
-      const rIdx=RINGS.indexOf(r);
-      if (!r.dash) {
-        ctx.setLineDash([]);
-        drawRingArcVaried(rx,ry,Math.PI,TAU,rIdx,r.w,r.opF*sysA,r.opN*sysA);
-      } else {
-        ctx.globalAlpha=sysA; ctx.beginPath(); ctx.ellipse(0,0,rx,ry,0,Math.PI,TAU,false);
-        ctx.setLineDash(r.dash); ctx.strokeStyle=g; ctx.lineWidth=r.w; ctx.stroke();
-      }
-      ctx.restore();
-    });
-  }
-
-  function drawNearArcs(cx, cy, scale, sysA=1) {
-    RINGS.forEach(r => {
-      const {g,rx,ry}=makeRingGrad(r,cx,cy,scale);
-      ctx.save(); ctx.translate(cx,cy);
-      if (r.blur && !_isMobile) {
-        ctx.save(); ctx.globalAlpha=0.04*sysA; ctx.filter='blur(6px)';
-        ctx.beginPath(); ctx.ellipse(0,0,rx,ry,0,0,Math.PI,false);
-        ctx.setLineDash([]); ctx.strokeStyle=`rgba(${Math.round(sigR)},${Math.round(sigG)},${Math.round(sigB)},${r.opN*0.22})`;
-        ctx.lineWidth=r.w*10; ctx.stroke(); ctx.filter='none'; ctx.restore();
-        ctx.save(); ctx.globalAlpha=0.09*sysA; ctx.filter='blur(2px)';
-        ctx.beginPath(); ctx.ellipse(0,0,rx,ry,0,0,Math.PI,false);
-        ctx.setLineDash([]); ctx.strokeStyle=`rgba(${Math.round(sigR)},${Math.round(sigG)},${Math.round(sigB)},${r.opN*0.32})`;
-        ctx.lineWidth=r.w*4; ctx.stroke(); ctx.filter='none'; ctx.restore();
-      }
-      const rIdx=RINGS.indexOf(r);
-      if (!r.dash) {
-        ctx.setLineDash([]);
-        drawRingArcVaried(rx,ry,0,Math.PI,rIdx,r.w,r.opF*sysA,r.opN*sysA);
-      } else {
-        ctx.globalAlpha=sysA; ctx.beginPath(); ctx.ellipse(0,0,rx,ry,0,0,Math.PI,false);
-        ctx.setLineDash(r.dash); ctx.strokeStyle=g; ctx.lineWidth=r.w; ctx.stroke();
-      }
-      ctx.restore();
-    });
-  }
-
-  // ── DEBRIS (orbital ring particles) ────────────────────────────────────
-  const DEBRIS = [];
-  [
-    { rx:1.26, tilt:0.42, spd:0.00045, n:200, dir: 1,  pSize:1.3 },
-    { rx:0.96, tilt:0.40, spd:0.00070, n:150, dir:-1,  pSize:0.6 },
-  ].forEach(rd => {
-    for (let i=0;i<rd.n;i++) {
-      DEBRIS.push({
-        angle: Math.random()*TAU,
-        speed: rd.spd * rd.dir * (0.6+Math.random()*0.8),
-        rx: rd.rx, tilt: rd.tilt+(Math.random()-0.5)*0.015,
-        r: rd.pSize*(0.5+Math.random()*0.8),
-        baseA: 0.15+Math.random()*0.45,
-        tw: Math.random()*TAU, tws: 0.006+Math.random()*0.012,
-        trail: Math.random()>0.55,
-      });
+    function draw(progress) {
+      const idx = Math.min(total - 1, Math.max(0, Math.floor(progress * (total - 1))));
+      const img = frames[idx];
+      const cw = canvas.width / DPR, ch = canvas.height / DPR;
+      ctx.fillStyle = '#070d0a';
+      ctx.fillRect(0, 0, cw, ch);
+      if (!img) return;
+      // object-fit: cover
+      const scale = Math.max(cw / img.width, ch / img.height);
+      const w = img.width * scale, h = img.height * scale;
+      ctx.drawImage(img, (cw - w) / 2, (ch - h) / 2, w, h);
     }
+
+    section._resize = resize;
+    section._draw   = draw;
+    resize();
+
+    // Collect reveals inside this section
+    section.querySelectorAll('[data-reveal]').forEach(el => {
+      const [rs, re] = el.dataset.reveal.split(',').map(parseFloat);
+      const hideAttr = el.dataset.hide;
+      let hs = NaN, he = NaN;
+      if (hideAttr) { [hs, he] = hideAttr.split(',').map(parseFloat); }
+      reveals.push({ el, section, rs, re, hs, he });
+    });
   });
 
-  function drawDebris(cx, cy, scale, sysA=1) {
-    ctx.save(); ctx.globalAlpha = sysA;
-    DEBRIS.forEach(p => {
-      p.angle += p.speed * sigSpeedMult;
-      p.tw += p.tws;
-      const rx=p.rx*scale, ry=rx*p.tilt;
-      const x=cx+Math.cos(p.angle)*rx, y=cy+Math.sin(p.angle)*ry;
-      const depth=(Math.sin(p.angle)+1)*0.5;
-      const a=p.baseA*(0.10+depth*0.90)*(0.5+0.5*Math.sin(p.tw));
-      if (a < 0.006) return;
-      if (p.trail) {
-        const steps=8;
-        for (let s=steps;s>0;s--) {
-          const pa=p.angle-p.speed*s*3;
-          const tx=cx+Math.cos(pa)*rx, ty=cy+Math.sin(pa)*ry;
-          const ta=a*(1-s/steps)*0.45;
-          if (ta>0.003) {
-            ctx.beginPath(); ctx.arc(tx,ty,p.r*0.4*(1-s/steps),0,TAU);
-            ctx.fillStyle=`rgba(${Math.round(sigR)},${Math.round(sigG)},${Math.round(sigB)},${ta.toFixed(3)})`;
-            ctx.fill();
-          }
-        }
-      }
-      const glow=ctx.createRadialGradient(x,y,0,x,y,p.r*3.5);
-      glow.addColorStop(0,`rgba(${Math.round(sigR)},${Math.round(sigG)},${Math.round(sigB)},${(a*0.55).toFixed(3)})`);
-      glow.addColorStop(1,`rgba(${Math.round(sigR)},${Math.round(sigG)},${Math.round(sigB)},0)`);
-      ctx.beginPath(); ctx.arc(x,y,p.r*3.5,0,TAU); ctx.fillStyle=glow; ctx.fill();
-      ctx.beginPath(); ctx.arc(x,y,p.r*(0.3+depth*0.8),0,TAU);
-      ctx.fillStyle=`rgba(${Math.round(sigR)},${Math.round(sigG)},${Math.round(sigB)},${a.toFixed(3)})`;
-      ctx.fill();
+  function smoothstep(a, b, t) {
+    if (b === a) return t >= b ? 1 : 0;
+    const x = Math.max(0, Math.min(1, (t - a) / (b - a)));
+    return x * x * (3 - 2 * x);
+  }
+
+  function update() {
+    sections.forEach(section => {
+      const rect = section.getBoundingClientRect();
+      const dist = section.offsetHeight - window.innerHeight;
+      const p = dist > 0 ? Math.max(0, Math.min(1, -rect.top / dist)) : 0;
+      section._progress = p;
+      if (section._draw) section._draw(p);
     });
-    ctx.restore();
-  }
-
-  // ── ENERGY (outward drifting particles) ─────────────────────────────────
-  const ENERGY = Array.from({length:16},()=>({
-    angle: Math.random()*TAU, dist: 5+Math.random()*12,
-    spd: 0.022+Math.random()*0.050, r: 0.4+Math.random()*0.6,
-    baseA: 0.04+Math.random()*0.14, tw: Math.random()*TAU,
-    tws: 0.005+Math.random()*0.012, maxDist: 0,
-  }));
-  function initEnergy() { ENERGY.forEach(p => { p.maxDist = Math.min(W,H)*(0.15+Math.random()*0.10); }); }
-  initEnergy();
-  window.addEventListener('resize', initEnergy, {passive:true});
-
-  function drawEnergy(cx, cy, sysA=1) {
-    ctx.save(); ctx.globalAlpha = sysA;
-    ENERGY.forEach(p => {
-      p.dist += p.spd;
-      p.tw += p.tws;
-      const x=cx+Math.cos(p.angle)*p.dist, y=cy+Math.sin(p.angle)*p.dist;
-      const prog=p.dist/p.maxDist;
-      const fade=prog<0.10?prog/0.10:prog>0.68?1-(prog-0.68)/0.32:1;
-      const a=p.baseA*fade*(0.5+0.5*Math.sin(p.tw));
-      if (p.dist >= p.maxDist) {
-        p.dist=5+Math.random()*15; p.angle=Math.random()*TAU;
-        p.maxDist=Math.min(W,H)*(0.30+Math.random()*0.22);
-      }
-      if (a > 0.004) {
-        const gl=ctx.createRadialGradient(x,y,0,x,y,p.r*5);
-        gl.addColorStop(0,`rgba(${Math.round(sigR)},${Math.round(sigG)},${Math.round(sigB)},${(a*0.50).toFixed(3)})`);
-        gl.addColorStop(1,`rgba(${Math.round(sigR)},${Math.round(sigG)},${Math.round(sigB)},0)`);
-        ctx.beginPath(); ctx.arc(x,y,p.r*5,0,TAU); ctx.fillStyle=gl; ctx.fill();
-        ctx.beginPath(); ctx.arc(x,y,p.r,0,TAU);
-        ctx.fillStyle=`rgba(${Math.round(sigR)},${Math.round(sigG)},${Math.round(sigB)},${a.toFixed(3)})`;
-        ctx.fill();
-      }
+    reveals.forEach(({ el, section, rs, re, hs, he }) => {
+      const p = section._progress || 0;
+      const show = smoothstep(rs, re, p);
+      const hide = !isNaN(hs) ? smoothstep(hs, he, p) : 0;
+      const op = show * (1 - hide);
+      el.style.opacity = op.toFixed(3);
+      el.style.transform = `translateY(${((1 - show) * 12).toFixed(2)}px)`;
     });
-    ctx.restore();
   }
 
-  // ── SIGNAL LERP ──────────────────────────────────────────────────────────
-  function updateSignalTargets() {
-    const state = window._corridorState || 'ACTIVE';
-    const ct = COLOR_TARGETS[state] || COLOR_TARGETS.ACTIVE;
-    targetR = ct.r; targetG = ct.g; targetB = ct.b;
-    targetSpeedMult = ct.particleSpeed;
-  }
-
-  function lerpSignal(dt) {
-    const k = 0.006; // slow, smooth transition
-    sigR += (targetR - sigR) * k;
-    sigG += (targetG - sigG) * k;
-    sigB += (targetB - sigB) * k;
-    sigSpeedMult += (targetSpeedMult - sigSpeedMult) * k;
-  }
-
-  // ── LAYOUT CACHE ─────────────────────────────────────────────────────────
-  let _heroVisible = true;
-  const _heroObserver = new IntersectionObserver(
-    entries => { _heroVisible = entries[0].isIntersecting; },
-    { threshold: 0 }
-  );
-  const _heroEl = document.getElementById('hero');
-  if (_heroEl) _heroObserver.observe(_heroEl);
-
-  let smoothScrollY = 0;
-
-  // ── FRAME LOOP ────────────────────────────────────────────────────────────
-  let t = 0, _lastFrameTime = 0;
-  function frame(now) {
-    smoothScrollY += (window.scrollY - smoothScrollY) * 0.10;
-
-    const fadeStart = window.innerHeight * 0.10;
-    const fadeEnd   = window.innerHeight * 0.30;
-    const opacity = smoothScrollY < fadeStart ? 1
-      : smoothScrollY > fadeEnd ? 0
-      : 1 - (smoothScrollY - fadeStart) / (fadeEnd - fadeStart);
-    canvas.style.opacity = opacity.toFixed(3);
-
-    if (document.hidden) { requestAnimationFrame(frame); return; }
-    if (!_heroVisible || opacity < 0.01) { requestAnimationFrame(frame); return; }
-    if (now - _lastFrameTime < 33) { requestAnimationFrame(frame); return; } // ~30fps cap
-    _lastFrameTime = now;
-    t++;
-
-    ctx.clearRect(0, 0, W, H);
-
-    const sp = Math.min(smoothScrollY / (window.innerHeight * 0.45), 1);
-    const scrollScale = 1 - sp * 0.45;
-    const baseScale = _isMobile ? Math.min(W,H)*0.34 : Math.min(W,H)*0.32;
-    const scale = baseScale * scrollScale;
-    const sphR  = scale * 0.26;
-    const cx = W * 0.5;
-    const cy = (_isMobile ? H*0.56 : H*0.60) - (_isMobile ? 0 : smoothScrollY*0.06);
-
-    // Update signal reactive values
-    updateSignalTargets();
-    lerpSignal();
-    sphereRotation += 0.000499;
-
-    // Render order (painter's algorithm):
-    drawBackground(t);
-
-    const sysA = Math.max(0.12, scrollScale);
-
-    // Far ring arcs (behind sphere)
-    drawFarArcs(cx, cy, scale, sysA);
-
-    // Sphere shadow on far rings
-    ;(function(){
-      const outerRx = RINGS[0].rx * scale;
-      const outerRy = outerRx * RINGS[0].tilt;
-      ctx.save(); ctx.translate(cx,cy);
-      ctx.save();
-      ctx.beginPath(); ctx.ellipse(0,0,outerRx*0.94,outerRy*0.94,0,0,TAU); ctx.clip();
-      const sx=sphR*0.24, sy=sphR*0.20;
-      const sg=ctx.createRadialGradient(sx,sy,sphR*0.45,sx,sy,outerRx*0.88);
-      sg.addColorStop(0,'rgba(0,0,0,0.38)');
-      sg.addColorStop(0.30,'rgba(0,0,0,0.16)');
-      sg.addColorStop(1,'rgba(0,0,0,0)');
-      ctx.beginPath(); ctx.ellipse(0,0,outerRx*0.94,outerRy*0.94,0,0,TAU);
-      ctx.fillStyle=sg; ctx.fill();
-      ctx.restore(); ctx.restore();
-    })();
-
-    // Sphere
-    drawSphere(cx, cy, sphR, sysA);
-
-    // Energy particles
-    drawEnergy(cx, cy, sysA);
-
-    // Debris
-    drawDebris(cx, cy, scale, sysA);
-
-    // Near ring arcs (in front of sphere)
-    drawNearArcs(cx, cy, scale, sysA);
-
-    // Scroll haze
-    if (sp > 0) {
-      const hazeR = baseScale * 1.4;
-      const hazeA = sp * 0.68;
-      const haze = ctx.createRadialGradient(cx,cy,baseScale*0.1,cx,cy,hazeR);
-      haze.addColorStop(0,  `rgba(7,13,10,${(hazeA*0.5).toFixed(3)})`);
-      haze.addColorStop(0.4,`rgba(7,13,10,${(hazeA*0.7).toFixed(3)})`);
-      haze.addColorStop(1,  `rgba(7,13,10,${hazeA.toFixed(3)})`);
-      ctx.beginPath(); ctx.arc(cx,cy,hazeR,0,TAU); ctx.fillStyle=haze; ctx.fill();
-    }
-
-    requestAnimationFrame(frame);
-  }
-  frame(0);
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', () => {
+    sections.forEach(s => s._resize && s._resize());
+    update();
+  });
+  update();
 })();
+
 
 </script>
 </body>

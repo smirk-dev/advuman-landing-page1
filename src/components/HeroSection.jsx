@@ -49,13 +49,13 @@ export default function HeroSection() {
       });
 
       tl
-        .to(eyebrowRef.current, { opacity: 1, y: 0, duration: 0.12 }, 0.05)
-        .to(titleRef.current,   { opacity: 1, y: 0, duration: 0.15 }, 0.14)
-        .to(subRef.current,     { opacity: 1, y: 0, duration: 0.12 }, 0.24)
-        .to(ctasRef.current,    { opacity: 1, y: 0, duration: 0.12 }, 0.32)
-        .to(signalRef.current,  { opacity: 1, y: 0, duration: 0.10 }, 0.40)
+        .to(eyebrowRef.current, { opacity: 1, y: 0, duration: 0.12 }, 0.02)
+        .to(titleRef.current,   { opacity: 1, y: 0, duration: 0.15 }, 0.22)
+        .to(subRef.current,     { opacity: 1, y: 0, duration: 0.12 }, 0.45)
+        .to(ctasRef.current,    { opacity: 1, y: 0, duration: 0.12 }, 0.60)
+        .to(signalRef.current,  { opacity: 1, y: 0, duration: 0.10 }, 0.72)
         // Fade everything out at end of hero sequence
-        .to(overlayRef.current, { opacity: 0, duration: 0.15 }, 0.82);
+        .to(overlayRef.current, { opacity: 0, duration: 0.15 }, 0.87);
     }, sectionRef);
 
     return () => ctx.revert();
@@ -76,12 +76,13 @@ export default function HeroSection() {
         sequence="hero"
         frameCount={HERO_FRAMES}
         scrollHeight={HERO_SCROLL}
+        scrimLeft
       >
         {/* Overlay text */}
         <div
           ref={overlayRef}
-          className="h-full flex flex-col justify-center px-6 md:px-16 lg:px-24 pt-20"
-          style={{ maxWidth: '900px' }}
+          className="h-full flex flex-col justify-end px-6 md:px-16 lg:px-24 pb-20 md:pb-24"
+          style={{ maxWidth: '640px' }}
         >
           {/* Eyebrow */}
           <p
@@ -101,6 +102,7 @@ export default function HeroSection() {
               fontWeight: 400,
               lineHeight: 1.05,
               color: '#f5f0e8',
+              textShadow: '0 2px 16px rgba(0,0,0,0.85), 0 1px 4px rgba(0,0,0,0.7)',
             }}
           >
             Know before it hits

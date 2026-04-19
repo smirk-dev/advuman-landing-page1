@@ -41,7 +41,7 @@ export default function SignalsSection() {
       const sh = SIG_SCROLL;
 
       gsap.set([headerRef.current, ...stepRefs.map(r => r.current)], {
-        opacity: 0, y: 28,
+        opacity: 0, y: 24,
       });
 
       const tl = gsap.timeline({
@@ -53,14 +53,15 @@ export default function SignalsSection() {
         },
       });
 
+      // One phase at a time: header → step1 → step2 → step3
       tl
-        .to(headerRef.current, { opacity: 1, y: 0, duration: 0.1 }, 0.05)
-        .to(step1Ref.current,  { opacity: 1, y: 0, duration: 0.1 }, 0.18)
-        .to(step2Ref.current,  { opacity: 1, y: 0, duration: 0.1 }, 0.35)
-        .to(step3Ref.current,  { opacity: 1, y: 0, duration: 0.1 }, 0.52)
-        .to([headerRef.current, ...stepRefs.map(r => r.current)], {
-          opacity: 0, y: -12, duration: 0.12,
-        }, 0.85);
+        .to(headerRef.current,  { opacity: 1, y: 0, duration: 0.10 }, 0.03)
+        .to(step1Ref.current,   { opacity: 1, y: 0, duration: 0.10 }, 0.15)
+        .to([headerRef.current, step1Ref.current], { opacity: 0, y: -10, duration: 0.08 }, 0.28)
+        .to(step2Ref.current,   { opacity: 1, y: 0, duration: 0.10 }, 0.33)
+        .to(step2Ref.current,   { opacity: 0, y: -10, duration: 0.08 }, 0.50)
+        .to(step3Ref.current,   { opacity: 1, y: 0, duration: 0.10 }, 0.55)
+        .to(step3Ref.current,   { opacity: 0, y: -10, duration: 0.08 }, 0.82);
     }, sectionRef);
 
     return () => ctx.revert();
@@ -72,15 +73,27 @@ export default function SignalsSection() {
         sequence="signals"
         frameCount={SIG_FRAMES}
         scrollHeight={SIG_SCROLL}
+        scrimLeft
       >
-        <div className="h-full flex flex-col justify-center px-6 md:px-16 lg:px-24 pt-20 gap-10">
+        <div className="h-full relative">
 
-          {/* Header */}
-          <div ref={headerRef}>
+          {/* Header — top-left, fades in first, then out before step 2 */}
+          <div
+            ref={headerRef}
+            style={{
+              position: 'absolute',
+              top: 'clamp(5rem, 10vh, 7rem)',
+              left: 'clamp(1.5rem, 8vw, 6rem)',
+              maxWidth: '540px',
+            }}
+          >
             <p className="section-label">How Advuman works</p>
             <h2
               className="section-title"
-              style={{ maxWidth: '640px' }}
+              style={{
+                maxWidth: '540px',
+                textShadow: '0 2px 16px rgba(0,0,0,0.85), 0 1px 4px rgba(0,0,0,0.7)',
+              }}
             >
               Three pressure layers.<br />
               <em style={{ fontStyle: 'italic', color: '#ffd700', fontWeight: 300 }}>
@@ -90,71 +103,77 @@ export default function SignalsSection() {
             <p style={{
               fontFamily: "'Inter', sans-serif",
               fontSize: '1rem',
-              color: 'rgba(232,228,220,0.6)',
-              maxWidth: '520px',
+              color: 'rgba(232,228,220,0.75)',
+              maxWidth: '480px',
               lineHeight: 1.65,
+              textShadow: '0 1px 8px rgba(0,0,0,0.7)',
             }}>
               We turn scattered trade signals into one weekly read on where risk is
               building across the UK–India corridor.
             </p>
           </div>
 
-          {/* Steps */}
-          <div className="flex flex-col md:flex-row gap-6 md:gap-8 max-w-4xl">
-            {STEPS.map(({ num, title, body, tag }, i) => (
-              <div
-                key={num}
-                ref={stepRefs[i]}
-                style={{
-                  flex: 1,
-                  padding: '1.75rem',
-                  background: 'rgba(255,255,255,0.03)',
-                  border: '1px solid rgba(255,255,255,0.07)',
-                  borderRadius: '2px',
-                }}
-              >
-                <p style={{
-                  fontFamily: "'Bebas Neue', sans-serif",
-                  fontSize: '0.65rem',
-                  letterSpacing: '0.15em',
-                  color: 'rgba(255,215,0,0.45)',
-                  marginBottom: '1rem',
-                }}>
-                  {num}
-                </p>
-                <h3 style={{
-                  fontFamily: "'Cormorant Garamond', Georgia, serif",
-                  fontSize: '1.4rem',
-                  fontWeight: 400,
-                  color: '#f5f0e8',
-                  marginBottom: '0.75rem',
-                }}>
-                  {title}
-                </h3>
-                <p style={{
-                  fontFamily: "'Inter', sans-serif",
-                  fontSize: '0.85rem',
-                  color: 'rgba(232,228,220,0.55)',
-                  lineHeight: 1.6,
-                  marginBottom: '1rem',
-                }}>
-                  {body}
-                </p>
-                <span style={{
-                  display: 'inline-block',
-                  fontFamily: "'DM Mono', monospace",
-                  fontSize: '0.68rem',
-                  letterSpacing: '0.04em',
-                  color: 'rgba(255,215,0,0.5)',
-                  background: 'rgba(255,215,0,0.06)',
-                  padding: '0.2rem 0.55rem',
-                  borderRadius: '2px',
-                }}>
-                  {tag}
-                </span>
-              </div>
-            ))}
-          </div>
+          {/* Steps — bottom-left, each revealed one at a time */}
+          {STEPS.map(({ num, title, body, tag }, i) => (
+            <div
+              key={num}
+              ref={stepRefs[i]}
+              style={{
+                position: 'absolute',
+                bottom: 'clamp(4rem, 8vh, 6rem)',
+                left: 'clamp(1.5rem, 8vw, 6rem)',
+                maxWidth: '540px',
+                padding: '2rem 2.25rem',
+                background: 'rgba(7,13,10,0.82)',
+                border: '1px solid rgba(255,215,0,0.15)',
+                borderRadius: '3px',
+                backdropFilter: 'blur(8px)',
+                WebkitBackdropFilter: 'blur(8px)',
+              }}
+            >
+              <p style={{
+                fontFamily: "'Bebas Neue', sans-serif",
+                fontSize: '0.8rem',
+                letterSpacing: '0.18em',
+                color: 'rgba(255,215,0,0.7)',
+                marginBottom: '0.75rem',
+              }}>
+                {num}
+              </p>
+              <h3 style={{
+                fontFamily: "'Cormorant Garamond', Georgia, serif",
+                fontSize: '1.6rem',
+                fontWeight: 400,
+                color: '#ffffff',
+                marginBottom: '0.75rem',
+                textShadow: '0 1px 8px rgba(0,0,0,0.5)',
+              }}>
+                {title}
+              </h3>
+              <p style={{
+                fontFamily: "'Inter', sans-serif",
+                fontSize: '0.9rem',
+                color: 'rgba(232,228,220,0.78)',
+                lineHeight: 1.65,
+                marginBottom: '1.1rem',
+              }}>
+                {body}
+              </p>
+              <span style={{
+                display: 'inline-block',
+                fontFamily: "'DM Mono', monospace",
+                fontSize: '0.68rem',
+                letterSpacing: '0.06em',
+                color: 'rgba(255,215,0,0.65)',
+                background: 'rgba(255,215,0,0.08)',
+                padding: '0.25rem 0.65rem',
+                borderRadius: '2px',
+                border: '1px solid rgba(255,215,0,0.12)',
+              }}>
+                {tag}
+              </span>
+            </div>
+          ))}
         </div>
       </ScrollCanvas>
     </div>

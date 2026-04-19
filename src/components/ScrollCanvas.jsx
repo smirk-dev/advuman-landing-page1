@@ -17,6 +17,7 @@ export default function ScrollCanvas({
   scrollHeight,
   children,
   className = '',
+  scrimLeft = false,
 }) {
   const sectionRef = useRef(null);
   const canvasRef  = useRef(null);
@@ -69,6 +70,16 @@ export default function ScrollCanvas({
           `,
         }}
       />
+
+      {/* Optional left scrim — darkens left panel for text legibility */}
+      {scrimLeft && (
+        <div
+          className="absolute inset-0 z-[2] pointer-events-none"
+          style={{
+            background: 'linear-gradient(to right, rgba(7,13,10,0.72) 0%, rgba(7,13,10,0.35) 45%, transparent 75%)',
+          }}
+        />
+      )}
 
       {/* Overlay — text / UI above the canvas */}
       <div className="relative z-10 h-full w-full pointer-events-none">

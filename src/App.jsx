@@ -49,8 +49,6 @@ export default function App() {
       {/* ── How It Works (scroll-canvas, pinned) ──────────── */}
       <SignalsSection />
 
-      <Ornament />
-
       {/* ── Hormuz Proof Timeline (scroll-canvas, pinned) ─── */}
       <HormuzSection />
 
