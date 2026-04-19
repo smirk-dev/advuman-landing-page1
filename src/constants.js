@@ -24,6 +24,12 @@ export const SEQUENCES = {
     frameCount:   160,
     scrollHeight: 160 * 12,            // 1920px — ~12px of scroll per frame
     basePath:     '/sequence1',
+    basePathFallbacks: [
+      '/sequence1',
+      '/public/sequence1',
+      './public/sequence1',
+      'public/sequence1',
+    ],
     filePrefix:   'ezgif-frame-',
     fileSuffix:   '.png',
     pad:          3,

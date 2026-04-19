@@ -47,11 +47,12 @@ function createPlaceholder(sequenceKey, index, frameCount) {
   }
 }
 
-// ── Real frame URL builder ─────────────────────────────────────────────────
-// Uses the per-sequence config from SEQUENCES to construct the correct URL.
-function getFrameUrl(seqConfig, index) {
+function getFrameUrls(seqConfig, index) {
   const pad = String(index + 1).padStart(seqConfig.pad, '0');
-  return `${seqConfig.basePath}/${seqConfig.filePrefix}${pad}${seqConfig.fileSuffix}`;
+  const paths = [seqConfig.basePath, ...(seqConfig.basePathFallbacks ?? [])];
+  return [...new Set(paths)].map((basePath) =>
+    `${basePath}/${seqConfig.filePrefix}${pad}${seqConfig.fileSuffix}`,
+  );
 }
 
 // ── Hook ───────────────────────────────────────────────────────────────────
@@ -86,16 +87,29 @@ export function useFramePreloader(sequence, frameCount) {
 
     const promises = Array.from({ length: count }, (_, i) =>
       new Promise((resolve) => {
+        const urls = getFrameUrls(seqConfig, i);
         const img = new Image();
-        const done = () => {
-          if (img.naturalWidth > 0) imgs[i] = img;
-          loaded++;
-          if (!cancelled) setProgress(loaded / count);
-          resolve();
+
+        const tryNext = (attempt = 0) => {
+          if (attempt >= urls.length) {
+            loaded++;
+            if (!cancelled) setProgress(loaded / count);
+            resolve();
+            return;
+          }
+
+          img.onload = () => {
+            imgs[i] = img;
+            loaded++;
+            if (!cancelled) setProgress(loaded / count);
+            resolve();
+          };
+
+          img.onerror = () => tryNext(attempt + 1);
+          img.src = urls[attempt];
         };
-        img.onload  = done;
-        img.onerror = done;
-        img.src = getFrameUrl(seqConfig, i);
+
+        tryNext();
       }),
     );
 
