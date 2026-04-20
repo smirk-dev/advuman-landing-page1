@@ -817,18 +817,18 @@
     .scroll-scrim-tb {
       position: absolute; inset: 0; z-index: 2; pointer-events: none;
       background: linear-gradient(to bottom,
-        rgba(7,13,10,0.55) 0%,
-        rgba(7,13,10,0.10) 30%,
-        rgba(7,13,10,0.10) 70%,
-        rgba(7,13,10,0.70) 100%);
+        rgba(7,13,10,0.30) 0%,
+        transparent 25%,
+        transparent 75%,
+        rgba(7,13,10,0.35) 100%);
     }
-    /* Left-panel scrim — darkens left 45% for text legibility */
+    /* Left-panel scrim — darkens left side for text legibility */
     .scroll-scrim-left {
       position: absolute; inset: 0; z-index: 3; pointer-events: none;
       background: linear-gradient(to right,
-        rgba(7,13,10,0.72) 0%,
-        rgba(7,13,10,0.35) 45%,
-        transparent 75%);
+        rgba(7,13,10,0.45) 0%,
+        rgba(7,13,10,0.15) 40%,
+        transparent 70%);
     }
 
     /* ═══ HERO OVERLAY — bottom-left, progressive reveal ════════════════════ */
@@ -983,6 +983,92 @@
       .signals-step--tr { top: auto; bottom: 3rem; }
       .signals-step .step-title { font-size: 1.35rem; }
     }
+
+    /* ═══ VISUAL ENHANCEMENTS ═══════════════════════════════════════════════ */
+
+    /* Corridor strip — gold-tinted border */
+    .corridor-strip {
+      background: rgba(255,215,0,0.025);
+      border-top: 1px solid rgba(255,215,0,0.10);
+      border-bottom: 1px solid rgba(255,215,0,0.06);
+    }
+
+    /* Ornament rules — slightly more visible */
+    .ornament-rule { opacity: 0.22; }
+
+    /* Section sub-text — globally more readable */
+    .section-sub { color: rgba(232,228,220,0.72); }
+
+    /* Cost cards — coloured top accent border per stat */
+    .cost-card { border-top: 2px solid transparent; transition: background 0.3s, box-shadow 0.3s; }
+    .cost-card:nth-child(1) { border-top-color: rgba(255,59,59,0.55); }
+    .cost-card:nth-child(2) { border-top-color: rgba(255,215,0,0.55); }
+    .cost-card:nth-child(3) { border-top-color: rgba(0,200,150,0.55); }
+    .cost-card:hover { background: rgba(255,255,255,0.05); }
+    .cost-label { color: rgba(232,228,220,0.72); }
+
+    /* Hormuz timeline — clearer descriptions, warmer proof note */
+    .event-description { color: rgba(232,228,220,0.68); }
+    .hormuz-proof-note {
+      color: rgba(232,228,220,0.72);
+      border-color: rgba(255,215,0,0.22);
+      background: rgba(255,215,0,0.05);
+    }
+
+    /* Pricing — readable desc + feature list, stronger featured glow */
+    .pricing-desc { color: rgba(232,228,220,0.68); }
+    .pricing-features li { color: rgba(232,228,220,0.78); }
+    .pricing-card.featured {
+      border-color: rgba(255,215,0,0.50);
+      box-shadow: 0 0 48px rgba(255,215,0,0.07), 0 0 0 1px rgba(255,215,0,0.12);
+    }
+
+    /* Health state cards — coloured left border per state */
+    .state-card {
+      border-left-width: 2px;
+      transition: background 0.3s;
+    }
+    .state-card:nth-child(1) { border-left-color: rgba(255,59,59,0.55); }
+    .state-card:nth-child(2) { border-left-color: rgba(255,215,0,0.55); }
+    .state-card:nth-child(3) { border-left-color: rgba(0,200,150,0.55); }
+    .state-card:nth-child(4) { border-left-color: rgba(68,136,255,0.55); }
+    .state-card:hover { background: rgba(255,255,255,0.04); }
+    .state-body { color: rgba(232,228,220,0.68); }
+
+    /* ROI — readable labels + stronger narrative */
+    .roi-row-label { color: rgba(232,228,220,0.70); }
+    .roi-narrative { color: rgba(232,228,220,0.92); font-size: 1.65rem; }
+
+    /* CETA — warmer block, readable body */
+    .ceta-inner {
+      border-color: rgba(255,215,0,0.22);
+      background: rgba(255,215,0,0.04);
+    }
+    .ceta-body { color: rgba(232,228,220,0.72); }
+
+    /* Onboarding — ghost numbers warmer, body readable, gold hover */
+    .onboarding-num { color: rgba(255,215,0,0.28); }
+    .onboarding-body { color: rgba(232,228,220,0.68); }
+    .onboarding-step { transition: background 0.3s, border-color 0.3s; }
+    .onboarding-step:hover {
+      background: rgba(255,215,0,0.03);
+      border-color: rgba(255,215,0,0.18);
+    }
+
+    /* Final CTA — subtle radial gold glow behind, brighter sub */
+    .final-cta {
+      background: radial-gradient(ellipse 80% 55% at 50% 50%, rgba(255,215,0,0.045) 0%, transparent 68%);
+    }
+    .final-cta-sub { color: rgba(232,228,220,0.70); }
+
+    /* Feature cards (pricing/what-you-get grid) */
+    .feature-body { color: rgba(232,228,220,0.68); }
+
+    /* Footer — more legible throughout */
+    .footer-brand { color: rgba(232,228,220,0.38); }
+    .footer-tagline { color: rgba(232,228,220,0.40); }
+    .footer-links a { color: rgba(232,228,220,0.48); }
+    footer { color: rgba(232,228,220,0.38); }
   </style>
 </head>
 <body>
@@ -1004,8 +1090,6 @@
 <section id="hero" class="scroll-pin" data-seq="1" data-frames="160">
   <div class="scroll-pin-inner">
     <canvas class="scroll-canvas" aria-hidden="true"></canvas>
-    <div class="scroll-scrim-tb"></div>
-    <div class="scroll-scrim-left"></div>
 
     <div class="hero-content">
       <p class="hero-eyebrow" data-reveal="0.02,0.12" data-hide="0.85,0.92">Used by UK importers managing India corridor exposure</p>
@@ -1401,7 +1485,7 @@
       <a href="#how-it-works">How It Works</a>
       <a href="#hormuz">Proof</a>
       <a href="#pricing">Pricing</a>
-      <a href="mailto:hello@advuman.com">hello@advuman.com</a>
+      <a href="mailto:advumaninc@gmail.com">advumaninc@gmail.com</a>
       <a href="https://linkedin.com/company/advuman" target="_blank" rel="noopener" aria-label="Advuman on LinkedIn">LinkedIn</a>
     </nav>
   </div>
@@ -1416,12 +1500,15 @@
 
 
 <!-- ══ SCRIPTS ════════════════════════════════════════════════════════════════ -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
 <script>
 'use strict';
 
 // ── CONSTANTS ──────────────────────────────────────────────────────────────
-const CALENDLY_URL    = 'https://calendly.com/advuman/15min';
-const TALLY_FALLBACK_URL = 'https://tally.so/r/advuman-waitlist';
+const CALENDLY_URL    = 'https://calendly.com/advumaninc';
+const TALLY_FALLBACK_URL  = 'https://tally.so/r/advuman-waitlist';
+const SUPABASE_URL        = 'https://xcepeisjcrkcmdysajxs.supabase.co';
+const SUPABASE_ANON_KEY   = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhjZXBlaXNqY3JrY21keXNhanhzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM5NDMwNTIsImV4cCI6MjA4OTUxOTA1Mn0.E4knOfv9-p0NIIMpQdFjA0TQtQxnuHm7NckanwkSfIM';
 
 const COLOR_TARGETS = {
   ACTIVE:   { r: 255, g: 59,  b: 59,  particleSpeed: 1.8, ringIntensity: 1.0 },
@@ -1577,21 +1664,27 @@ fetchCorridorStatus();
 // ── WAITLIST FORM ──────────────────────────────────────────────────────────
 async function submitWaitlist(e) {
   e.preventDefault();
-  const email = document.getElementById('waitlist-email').value.trim();
+  const email  = document.getElementById('waitlist-email').value.trim();
+  const btn    = e.target.querySelector('button[type="submit"]');
   if (!email) return;
 
+  btn.disabled    = true;
+  btn.textContent = 'Sending…';
+
   try {
-    const res = await fetch('/api/subscribe', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, corridor: 'uk-india', tier: 'pulse' }),
-      signal: AbortSignal.timeout(5000),
-    });
-    if (!res.ok && res.status !== 201) throw new Error('api-fail');
+    const db = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const { error } = await db
+      .from('waitlist_subscribers')
+      .insert({ email, source: 'landing-page' });
+
+    // code 23505 = unique violation (already subscribed) — still show success
+    if (error && error.code !== '23505') throw error;
+
     document.getElementById('waitlist-form').style.display = 'none';
     document.getElementById('waitlist-success').style.display = 'block';
   } catch {
-    // Fallback: open Tally form
+    btn.disabled    = false;
+    btn.textContent = 'Get the Weekly Pulse';
     window.open(TALLY_FALLBACK_URL, '_blank', 'noopener');
   }
 }
