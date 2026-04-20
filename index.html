@@ -1707,20 +1707,8 @@ async function submitWaitlist(e) {
     const canvas = section.querySelector('canvas.scroll-canvas');
     const ctx    = canvas.getContext('2d', { alpha: false });
 
-    // Preload frames (real PNGs from public/sequenceN/)
+    // Stable mutable frame buffer — same array reference, filled in as images arrive
     const frames = new Array(total);
-    let loaded = 0;
-    for (let i = 0; i < total; i++) {
-      const img = new Image();
-      const n = String(i + 1).padStart(3, '0');
-      img.src = `/sequence${seq}/ezgif-frame-${n}.png`;
-      img.onload = () => {
-        frames[i] = img;
-        loaded++;
-        if (loaded === total) update();
-      };
-      img.onerror = () => { loaded++; };
-    }
 
     function resize() {
       const r = canvas.getBoundingClientRect();
@@ -1745,6 +1733,23 @@ async function submitWaitlist(e) {
     section._draw   = draw;
     resize();
 
+    // Frame loader — called immediately for the hero, deferred for other sections
+    section._loadFrames = function() {
+      for (let i = 0; i < total; i++) {
+        const img = new Image();
+        const n = String(i + 1).padStart(3, '0');
+        // Boost network priority for the first 20 frames so the canvas shows fast
+        if (i < 20) img.fetchPriority = 'high';
+        img.src = `/sequence${seq}/ezgif-frame-${n}.png`;
+        img.onload = () => {
+          frames[i] = img;
+          // Redraw as soon as frame 0 arrives — canvas is never blank
+          if (i === 0) update();
+        };
+        img.onerror = () => {};
+      }
+    };
+
     // Collect reveals inside this section
     section.querySelectorAll('[data-reveal]').forEach(el => {
       const [rs, re] = el.dataset.reveal.split(',').map(parseFloat);
@@ -1753,6 +1758,27 @@ async function submitWaitlist(e) {
       if (hideAttr) { [hs, he] = hideAttr.split(',').map(parseFloat); }
       reveals.push({ el, section, rs, re, hs, he });
     });
+  });
+
+  // ── Lazy-load frames: hero eagerly, others only when scrolled near ──────────
+  // Cuts the initial network burst from 320 → 160 simultaneous PNG requests.
+  // The 1500px rootMargin gives the deferred sequence time to load before the
+  // user reaches it while scrolling through the pinned hero (300vh tall).
+  const seqObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target._loadFrames();
+        seqObserver.unobserve(entry.target);
+      }
+    });
+  }, { rootMargin: '0px 0px 1500px 0px' });
+
+  sections.forEach((section, i) => {
+    if (i === 0) {
+      section._loadFrames();        // Hero — load immediately (above the fold)
+    } else {
+      seqObserver.observe(section); // Others — load when approaching viewport
+    }
   });
 
   function smoothstep(a, b, t) {
